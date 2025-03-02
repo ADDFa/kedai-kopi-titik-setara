@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+:root {
+    --body-color: #d7ccc8;
+    --primary-color: #795548;
+}
+
+.form-control {
+    @apply border-b border-b-zinc-400 h-10 focus:outline-0 w-full;
+}
+
+.form-label {
+    @apply text-sm block;
+}
+
+.floating-input-icon {
+    @apply h-12 focus:outline-0 w-full relative placeholder:absolute placeholder:top-1/2 placeholder:-translate-y-1/2 placeholder:transition-all placeholder:ease-in-out placeholder:duration-300 focus:placeholder:text-xs focus:placeholder:top-1;
+}
+
+.invalid-feedback {
+    @apply text-xs text-end text-red-500 mt-1;
+}
