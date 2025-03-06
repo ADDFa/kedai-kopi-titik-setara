@@ -15,7 +15,7 @@
     <link href="/assets/css/index.css" rel="stylesheet" />
 </head>
 
-<body class="bg-(--body-color)">
+<body class="">
     <?= $this->renderSection("content") ?>
 
     <?php if (session("message")): ?>
@@ -25,7 +25,11 @@
     <!-- sweetalert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- script -->
+    <?= $this->renderSection("script") ?>
     <script src="/assets/js/index.js" type="module"></script>
 </body>
 

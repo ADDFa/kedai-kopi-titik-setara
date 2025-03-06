@@ -2,7 +2,6 @@
 
 namespace App\Filters;
 
-use App\Models\User;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -27,12 +26,6 @@ class Authorization implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!session("sign-in")) return redirect()->to("/");
-
-        $request->user = function () {
-            $userModel = new User();
-            $user = $userModel->find(session("user_id"));
-            return $user;
-        };
     }
 
     /**

@@ -40,8 +40,8 @@ class Auth extends BaseController
         ]);
 
         $data = [
-            "user_id"   => $user["id"],
-            "sign-in"     => true
+            "user"   => (object) $this->userModel->select(["id", "name", "username"])->find($user["id"]),
+            "sign-in" => true
         ];
         session()->set($data);
 
@@ -69,9 +69,17 @@ class Auth extends BaseController
         $data = $this->validator->getValidated();
         $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);
 
-        $user = new User();
-        $user->insert($data);
+        $this->userModel->insert($data);
+        $message = [
+            "icon"  => "success",
+            "text"  => "Registrasi berhasil"
+        ];
+        return redirect()->back()->with("message", $message);
+    }
 
-        return redirect()->back()->with("status", "success")->with("message", "Registrasi berhasil");
+    public function signOut()
+    {
+        session()->destroy();
+        return redirect()->to("/");
     }
 }

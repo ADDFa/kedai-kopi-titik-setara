@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Services\UserService;
 use CodeIgniter\Config\BaseService;
 
 /**

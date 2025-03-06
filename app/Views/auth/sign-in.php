@@ -11,10 +11,14 @@
                 <i class="bi bi-person-badge pe-3 text-2xl text-zinc-400"></i>
                 <input autocomplete="off" type="text" placeholder="Username" name="username" id="username" class="floating-input-icon" value="<?= old("username") ?>" />
             </div>
+            <p class="invalid-feedback"><?= session("errors.username") ?></p>
+
             <div class="flex items-center border-b border-b-zinc-400 mt-6">
                 <i class="bi bi-person-lock pe-3 text-2xl text-zinc-400"></i>
                 <input autocomplete="off" type="password" placeholder="Password" name="password" id="password" class="floating-input-icon" value="<?= old("password") ?>" />
             </div>
+            <p class="invalid-feedback"><?= session("errors.password") ?></p>
+
             <div class="mt-10 mb-6 text-center">
                 <button type="submit" class="bg-amber-800 w-100 px-7 py-2 rounded-full text-white transition-colors hover:bg-amber-700 cursor-pointer">Login</button>
             </div>

@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Product as ModelsProduct;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class Product extends BaseController
 {
@@ -18,15 +17,25 @@ class Product extends BaseController
     public function index(): string
     {
         $products = $this->productModel->findAll();
-        return $this->pageViews("product.index", ["products" => $products]);
+
+        $data = [
+            "active"    => "product",
+            "products"  => $products
+        ];
+
+        return $this->pageViews("product/index", $data);
     }
 
-    public function create(): string
+    public function new(): string
     {
-        return $this->pageViews("product.create");
+        $data = [
+            "active"    => "product"
+        ];
+
+        return $this->pageViews("product/create", $data);
     }
 
-    public function store()
+    public function create()
     {
         // 
     }
@@ -34,13 +43,23 @@ class Product extends BaseController
     public function show(int $id): string
     {
         $product = $this->productModel->find($id);
-        return $this->pageViews("product.show", ["product" => $product]);
+        $data = [
+            "active"    => "product",
+            "product"   => $product
+        ];
+
+        return $this->pageViews("product/show", $data);
     }
 
     public function edit(int $id): string
     {
         $product = $this->productModel->find($id);
-        return $this->pageViews("product.edit", $product);
+        $data = [
+            "active"    => "product",
+            "product"   => $product
+        ];
+
+        return $this->pageViews("product/edit", $data);
     }
 
     public function update(int $id)
@@ -48,7 +67,7 @@ class Product extends BaseController
         // 
     }
 
-    public function destroy(int $id)
+    public function delete(int $id)
     {
         // 
     }

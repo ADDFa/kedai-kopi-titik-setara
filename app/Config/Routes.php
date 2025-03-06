@@ -16,11 +16,6 @@ $routes->group("/", ["filter" => "guest"], static function ($routes) {
 $routes->group("/", ["filter" => "auth"], static function ($routes) {
     $routes->get("dashboard", "Home::dashboard");
 
-    $routes->get("product", "Product::index");
-    $routes->get("product/(:id)", "Product::show");
-    $routes->get("product/add", "Product::create");
-    $routes->post("product", "Product::store");
-    $routes->get("product/(:id)/edit", "Product::edit");
-    $routes->put("product/(:id)", "Product::update");
-    $routes->delete("product/(:id)", "Product::destroy");
+    $routes->resource("product");
+    $routes->post("sign-out", "Auth::signOut");
 });

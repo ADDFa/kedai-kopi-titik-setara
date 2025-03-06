@@ -2,7 +2,7 @@
 
 :root {
     --body-color: #d7ccc8;
-    --primary-color: #795548;
+    --primary: #823200;
 }
 
 .form-control {
@@ -19,4 +19,16 @@
 
 .invalid-feedback {
     @apply text-xs text-end text-red-500 mt-1;
+}
+
+a.active {
+    @apply bg-(--primary) text-white;
+}
+
+button[role="button"]:hover {
+    cursor: pointer;
+}
+
+.btn {
+    @apply bg-(--primary) text-white px-3 py-2 rounded-lg hover:bg-[#D15000] transition-colors;
 }
