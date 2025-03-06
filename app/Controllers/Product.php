@@ -17,11 +17,16 @@ class Product extends BaseController
 
     public function index(): string
     {
-        $products = $this->productModel->withCategory()->asObject()->findAll();
+        $query = $this->productModel->withCategory();
 
+        $keyword = $this->request->getGet("keyword");
+        if ($keyword) $query->like("p.name", $keyword);
+
+        $products = $query->asObject()->findAll();
         $data = [
             "active"    => "product",
-            "products"  => $products
+            "products"  => $products,
+            "keyword"   => $keyword
         ];
 
         return $this->pageViews("product/index", $data);
