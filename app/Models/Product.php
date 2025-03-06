@@ -43,4 +43,10 @@ class Product extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function withCategory()
+    {
+        return $this->setTable("products as p")->select("p.id, category_id, p.name, p.price, p.picture, p.qty, c.name AS category_name")
+            ->join("categories AS c", "c.id = p.category_id", "LEFT");
+    }
 }

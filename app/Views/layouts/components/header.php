@@ -5,7 +5,7 @@
         </a>
 
         <div class="flex gap-2 items-center">
-            <p><?= session("user")->name ?></p>
+            <p><?= session("user.name") ?></p>
             <i class="bi bi-person-circle text-2xl"></i>
         </div>
     </div>

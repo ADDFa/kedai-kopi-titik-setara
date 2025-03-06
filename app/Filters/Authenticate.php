@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Guest implements FilterInterface
+class Authenticate implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -25,20 +25,8 @@ class Guest implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session("sign-in")) return;
-
-        $role = session("user.role");
-        switch ($role) {
-            case "admin":
-                return redirect()->to("/dashboard");
-
-            case "customer":
-                return redirect()->to("/menu");
-
-            default:
-                session()->destroy();
-                return redirect()->to("/");
-        }
+        if (!$arguments) return;
+        if (in_array("admin", $arguments)) return $this->admin();
     }
 
     /**
@@ -56,5 +44,22 @@ class Guest implements FilterInterface
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         //
+    }
+
+    private function admin()
+    {
+        $role = session("user.role");
+
+        switch ($role) {
+            case "customer":
+                return redirect()->to("/menu");
+
+            case "admin":
+                return null;
+
+            default:
+                session()->destroy();
+                return redirect()->to("/");
+        }
     }
 }

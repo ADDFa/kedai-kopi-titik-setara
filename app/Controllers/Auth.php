@@ -39,13 +39,20 @@ class Auth extends BaseController
             "icon"  => "warning"
         ]);
 
+        $user = $this->userModel->select(["id", "username", "name", "role"])->find($user["id"]);
         $data = [
-            "user"   => (object) $this->userModel->select(["id", "name", "username"])->find($user["id"]),
+            "user"   => $user,
             "sign-in" => true
         ];
         session()->set($data);
 
-        return redirect()->to("/dashboard");
+        switch ($user["role"]) {
+            case "admin":
+                return redirect()->to("/dashboard");
+
+            case "customer":
+                return redirect()->to("/menu");
+        }
     }
 
     public function signUp()

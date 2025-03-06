@@ -13,9 +13,13 @@ $routes->group("/", ["filter" => "guest"], static function ($routes) {
     $routes->post("sign-up", "Auth::handleSignUp");
 });
 
-$routes->group("/", ["filter" => "auth"], static function ($routes) {
-    $routes->get("dashboard", "Home::dashboard");
+$routes->get("/menu", "Home::index");
 
-    $routes->resource("product");
+$routes->group("/", ["filter" => "auth"], static function ($routes) {
     $routes->post("sign-out", "Auth::signOut");
+});
+
+$routes->group("/", ["filter" => ["auth", "authenticate:admin"]], static function ($routes) {
+    $routes->get("dashboard", "Home::dashboard");
+    $routes->resource("product");
 });

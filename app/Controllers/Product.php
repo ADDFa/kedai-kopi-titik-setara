@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Product as ModelsProduct;
+use CodeIgniter\Files\File;
 
 class Product extends BaseController
 {
@@ -16,7 +17,7 @@ class Product extends BaseController
 
     public function index(): string
     {
-        $products = $this->productModel->findAll();
+        $products = $this->productModel->withCategory()->asObject()->findAll();
 
         $data = [
             "active"    => "product",
@@ -69,6 +70,11 @@ class Product extends BaseController
 
     public function delete(int $id)
     {
-        // 
+        $message = [
+            "text"  => "Data produk berhasil dihapus"
+        ];
+
+        $this->productModel->delete($id);
+        return redirect()->to("/product")->with("message", $message);
     }
 }

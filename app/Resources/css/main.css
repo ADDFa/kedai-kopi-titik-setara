@@ -25,7 +25,8 @@ a.active {
     @apply bg-(--primary) text-white;
 }
 
-button[role="button"]:hover {
+button,
+[role="button"]:hover {
     cursor: pointer;
 }
 

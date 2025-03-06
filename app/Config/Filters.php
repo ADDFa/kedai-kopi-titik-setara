@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\Authenticate;
 use CodeIgniter\Config\Filters as BaseFilters;
 use CodeIgniter\Filters\Cors;
 use CodeIgniter\Filters\CSRF;
@@ -37,7 +38,8 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'auth'          => Authorization::class,
-        'guest'         => Guest::class
+        'guest'         => Guest::class,
+        'authenticate'  => Authenticate::class
     ];
 
     /**

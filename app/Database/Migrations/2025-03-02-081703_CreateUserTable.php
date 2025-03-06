@@ -28,7 +28,8 @@ class CreateUserTable extends Migration
             ],
             "role"  => [
                 "type"              => "ENUM",
-                "constraint"        => ["admin", "customer"]
+                "constraint"        => ["admin", "customer"],
+                "default"           => "customer"
             ],
             "created_at" => [
                 "type"              => "TIMESTAMP",
