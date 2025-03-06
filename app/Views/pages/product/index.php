@@ -2,10 +2,8 @@
 
 <?= $this->section("content") ?>
 
-<header class="py-4 px-2">
-    <h1 class="text-lg">Manajemen Produk</h1>
-</header>
-<hr class="text-gray-300" />
+<!-- header -->
+<?= $this->include("pages/components/dashboard-header") ?>
 
 <!-- filters -->
 <section class="p-4 flex items-center justify-between">
@@ -24,8 +22,9 @@
     </div>
 </section>
 
+<!-- content -->
 <section class="p-4">
-    <table class="w-full border-separate border-spacing-y-4">
+    <table id="product-table" class="w-full border-separate border-spacing-y-4">
         <thead>
             <tr class="rounded-lg shadow h-9">
                 <th scope="col">No</th>
@@ -39,7 +38,7 @@
 
         <tbody>
             <?php foreach ($products as $i => $product): ?>
-                <tr class="text-center shadow-lg rounded-xl">
+                <tr class="text-center shadow-lg rounded-xl" role="button" data-id="<?= $product->id ?>">
                     <th class="py-4" scope="col"><?= $i + 1 ?></th>
                     <td class="py-4">
                         <img class="w-16 aspect-square rounded-full mx-auto" src="<?= $product->picture ?>" alt="Produk" />

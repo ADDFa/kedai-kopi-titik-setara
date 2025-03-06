@@ -1,3 +1,4 @@
+import "./pages/product"
 import { Confirm, Toast } from "./functions/sweet-alert"
 
 const messageElement = document.getElementById("message")

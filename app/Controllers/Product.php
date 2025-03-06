@@ -24,6 +24,7 @@ class Product extends BaseController
 
         $products = $query->asObject()->findAll();
         $data = [
+            "title"     => "Data Produk",
             "active"    => "product",
             "products"  => $products,
             "keyword"   => $keyword
@@ -35,6 +36,7 @@ class Product extends BaseController
     public function new(): string
     {
         $data = [
+            "title"     => "Tambah Produk",
             "active"    => "product"
         ];
 
@@ -48,8 +50,9 @@ class Product extends BaseController
 
     public function show(int $id): string
     {
-        $product = $this->productModel->find($id);
+        $product = $this->productModel->withCategory()->where("p.id", $id)->asObject()->first();
         $data = [
+            "title"     => "Detail Produk",
             "active"    => "product",
             "product"   => $product
         ];
@@ -59,8 +62,9 @@ class Product extends BaseController
 
     public function edit(int $id): string
     {
-        $product = $this->productModel->find($id);
+        $product = $this->productModel->withCategory()->asObject()->find($id);
         $data = [
+            "title"     => "Edit Produk",
             "active"    => "product",
             "product"   => $product
         ];
