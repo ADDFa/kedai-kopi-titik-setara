@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "build": "npx @tailwindcss/cli -i ./app/Resources/css/main.css -o ./public/assets/css/index.css --minify",
         "dev": "npx @tailwindcss/cli -i ./app/Resources/css/main.css -o ./public/assets/css/index.css --watch",
+        "webpack": "npx webpack --config webpack.prod.js",
         "webpack-dev": "npx webpack --config webpack.config.js --watch"
     },
     "keywords": [],
