@@ -13,11 +13,11 @@
 </section>
 
 <!-- content -->
-<section class="flex min-h-10 mt-3 justify-stretch p-16">
-    <div class="p-10 w-1/2">
-        <img src="<?= base_url($product->picture) ?>" alt="Gambar Produk" class="w-5/6 mx-auto rounded-xl">
+<section class="flex flex-col lg:flex-row min-h-10 mt-3 justify-stretch p-4 lg:p-16">
+    <div class="p-10 w-full lg:w-1/2 order-2 lg:order-1">
+        <img src="<?= base_url($product->picture) ?>" alt="Gambar Produk" class="lg:w-5/6 mx-auto rounded-xl">
     </div>
-    <div class="flex-1 shadow-lg p-16">
+    <div class="flex-1 shadow-lg p-16 order-1 lg:order-2">
         <h2 class="text-3xl font-bold"><?= $product->name ?></h2>
         <p class="italic text-gray-600 text-sm mt-1"><?= $product->category_name ?></p>
 

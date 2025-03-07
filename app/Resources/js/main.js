@@ -1,8 +1,8 @@
 import "./pages/product"
 import { Confirm, Toast } from "./functions/sweet-alert"
 
-const messageElement = document.getElementById("message")
-if (messageElement) {
+if (document.getElementById("message")) {
+    const messageElement = document.getElementById("message")
     const { icon } = messageElement.dataset
 
     Toast.fire({
@@ -50,3 +50,5 @@ if (document.querySelector(`[data-action="confirm"]`)) {
         btn.addEventListener("click", handler)
     })
 }
+
+console.log(location.href)
