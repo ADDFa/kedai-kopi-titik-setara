@@ -49,7 +49,7 @@
                     <td class="py-4"><?= $product->qty ?></td>
                     <td class="py-4">
                         <div class="flex gap-1 items-center justify-center">
-                            <a href="" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">
+                            <a href="/product/<?= $product->id ?>/edit" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">
                                 <i class="bi bi-pen"></i>
                             </a>
 

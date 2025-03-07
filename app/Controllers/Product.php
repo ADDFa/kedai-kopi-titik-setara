@@ -15,6 +15,14 @@ class Product extends BaseController
         $this->productModel = new ModelsProduct();
     }
 
+    private function categories(): array
+    {
+        $categoryModel = new Category();
+        $categories = $categoryModel->select("id, name")->asObject()->findAll();
+
+        return $categories;
+    }
+
     public function index(): string
     {
         $query = $this->productModel->withCategory();
@@ -35,13 +43,10 @@ class Product extends BaseController
 
     public function new(): string
     {
-        $categoryModel = new Category();
-        $categories = $categoryModel->select("id, name")->asObject()->findAll();
-
         $data = [
             "title"         => "Tambah Produk",
             "active"        => "product",
-            "categories"    => $categories
+            "categories"    => $this->categories()
         ];
 
         return $this->pageViews("product/create", $data);
@@ -52,7 +57,7 @@ class Product extends BaseController
         $rules = [
             "name"          => "required|max_length[255]",
             "category_id"   => "required|is_not_unique[categories.id]",
-            "picture"       => "uploaded[picture]",
+            "picture"       => "uploaded[picture]|max_size[picture,1024]|ext_in[picture,jpg,jpeg,png]",
             "price"         => "required|numeric",
             "qty"           => "required|integer"
         ];
@@ -90,11 +95,15 @@ class Product extends BaseController
 
     public function edit(int $id): string
     {
-        $product = $this->productModel->withCategory()->asObject()->find($id);
+        $product = $this->productModel->withCategory()->where("p.id", $id)->asObject()->first();
+        $product->price = intval($product->price);
+
         $data = [
-            "title"     => "Edit Produk",
-            "active"    => "product",
-            "product"   => $product
+            "id"            => $id,
+            "title"         => "Edit Produk",
+            "active"        => "product",
+            "product"       => $product,
+            "categories"    => $this->categories()
         ];
 
         return $this->pageViews("product/edit", $data);
@@ -102,7 +111,48 @@ class Product extends BaseController
 
     public function update(int $id)
     {
-        // 
+        $rules = [
+            "name"          => "required|max_length[255]",
+            "category_id"   => "required|is_not_unique[categories.id]",
+            "price"         => "required|numeric",
+            "qty"           => "required|integer"
+        ];
+
+        if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+
+        $data = $this->validator->getValidated();
+        $product = $this->productModel->asObject()->find($id);
+        $picture = $this->request->getFile("picture");
+
+        if ($picture->isValid()) {
+            if (!$this->validateData(
+                [
+                    "picture" => "picture"
+                ],
+                [
+                    "picture" => "uploaded[picture]|max_size[picture,1024]|ext_in[picture,jpg,jpeg,png]"
+                ]
+            )) {
+                return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+            }
+
+            // simpan file
+            $pictureName = date("d-m-Y-his_") . $picture->getName();
+            $picture->move("coffe-images", $pictureName);
+
+            // tambahkan nama file kedalam data
+            $data["picture"] = "coffe-images/" . $pictureName;
+
+            // hapus file lama
+            if ($picture->hasMoved()) unlink($product->picture);
+        }
+
+        $this->productModel->update($id, $data);
+
+        $message = [
+            "text"  => "Data produk berhasil diupdate."
+        ];
+        return redirect()->back()->with("message", $message);
     }
 
     public function delete(int $id)
@@ -112,9 +162,9 @@ class Product extends BaseController
             "text"  => "Data produk berhasil dihapus"
         ];
 
-        if (file_exists("./" . $product->picture)) unlink("./" . $product->picture);
-
         $this->productModel->delete($id);
+        unlink("./" . $product->picture);
+
         return redirect()->to("/product")->with("message", $message);
     }
 }

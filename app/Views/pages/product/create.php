@@ -7,7 +7,7 @@
 
 <!-- actions -->
 <section class="flex justify-end p-2">
-    <a href="javascript:history.back()" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">
+    <a href="/product" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">
         <i class="bi bi-arrow-left"></i>
     </a>
 </section>
@@ -35,7 +35,7 @@
             </div>
             <div class="flex flex-col mt-3 relative">
                 <label for="picture" class="text-sm mb-3">Foto Produk</label>
-                <input autocomplete="off" type="file" name="picture" placeholder="Jhon Doe" id="picture" class="border <?= session("errors.picture") ? "border-red-400" : "border-gray-400" ?> rounded p-2 outline-none placeholder:text-xs hover:cursor-pointer" value="<?= old("picture") ?>" />
+                <input autocomplete="off" type="file" name="picture" placeholder="Jhon Doe" id="picture" class="border <?= session("errors.picture") ? "border-red-400" : "border-gray-400" ?> rounded p-2 outline-none placeholder:text-xs hover:cursor-pointer" />
                 <?php if (session("errors.name")): ?>
                     <i class="bi bi-exclamation-triangle text-red-500 absolute bottom-7 right-3"></i>
                 <?php endif ?>
