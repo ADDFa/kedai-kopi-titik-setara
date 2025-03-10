@@ -15,7 +15,7 @@
     <link href="/assets/css/index.css" rel="stylesheet" />
 </head>
 
-<body class="">
+<body class="bg-gray-100">
     <?= $this->renderSection("content") ?>
 
     <?php if (session("message")): ?>

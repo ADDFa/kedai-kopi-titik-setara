@@ -33,7 +33,7 @@ class Guest implements FilterInterface
                 return redirect()->to("/dashboard");
 
             case "customer":
-                return redirect()->to("/menu");
+                return redirect()->to("/");
 
             default:
                 session()->destroy();

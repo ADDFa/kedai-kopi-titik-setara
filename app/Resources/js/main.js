@@ -1,4 +1,5 @@
 import "./pages/product"
+import "./pages/menu"
 import { Confirm, Toast } from "./functions/sweet-alert"
 
 if (document.getElementById("message")) {
@@ -50,5 +51,3 @@ if (document.querySelector(`[data-action="confirm"]`)) {
         btn.addEventListener("click", handler)
     })
 }
-
-console.log(location.href)

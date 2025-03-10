@@ -31,7 +31,7 @@
         </form>
 
         <p class="text-end text-xs">
-            Belum punya akun? <a href="/sign-up" class="text-indigo-600 underline">Daftar disini!</a>
+            Sudah memiliki akun? <a href="/sign-in" class="text-indigo-600 underline">Login!</a>
         </p>
     </div>
 </section>

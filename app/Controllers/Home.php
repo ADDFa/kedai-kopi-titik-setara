@@ -3,13 +3,27 @@
 namespace App\Controllers;
 
 use App\Charts\DashboardChart;
+use App\Models\Cart;
+use App\Models\Product;
 
 class Home extends BaseController
 {
+    private $productModel;
+
+    public function __construct()
+    {
+        $this->productModel = new Product();
+    }
+
     public function index(): string
     {
+        $cartModel = new Cart();
+
         $data = [
-            "title" => "Home"
+            "title"                 => "Home",
+            "products"              => $this->productModel->get(),
+            "bestSellers"           => $this->productModel->get("best_seller", ["limit" => 5]),
+            "userTotalProduct"      => $cartModel->userTotalProduct(session("user.id"))
         ];
 
         return $this->pageViews("home/menu", $data);

@@ -25,7 +25,7 @@ class Authorization implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (!session("sign-in")) return redirect()->to("/");
+        if (!session("sign-in")) return redirect()->to("/sign-in");
     }
 
     /**

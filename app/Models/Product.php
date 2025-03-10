@@ -49,4 +49,37 @@ class Product extends Model
         return $this->setTable("products as p")->select("p.id, category_id, p.name, p.price, p.picture, p.qty, c.name AS category_name")
             ->join("categories AS c", "c.id = p.category_id", "LEFT");
     }
+
+    public function get(string $category = "", array $options = [])
+    {
+        $binds = [];
+
+        $query =
+            "SELECT
+                p.*,
+                COALESCE(s_i.sold, 0) AS sold
+            FROM products p
+            LEFT JOIN (
+                SELECT
+                    o_i.product_id,
+                    COUNT(o_i.product_id) AS sold
+                FROM order_items o_i
+                GROUP BY o_i.product_id
+            ) AS s_i ON p.id = s_i.product_id";
+
+        if ($category) {
+            switch ($category) {
+                case "best_seller":
+                    $query .= " ORDER BY sold DESC";
+                    break;
+            }
+        }
+
+        if (key_exists("limit", $options)) {
+            $query .= " LIMIT ?";
+            $binds[] = $options["limit"];
+        }
+
+        return $this->db->query($query, $binds)->getResult();
+    }
 }

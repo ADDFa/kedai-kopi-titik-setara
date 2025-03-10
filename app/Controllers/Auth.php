@@ -40,6 +40,7 @@ class Auth extends BaseController
         ]);
 
         $user = $this->userModel->select(["id", "username", "name", "role"])->find($user["id"]);
+
         $data = [
             "user"   => $user,
             "sign-in" => true
@@ -51,7 +52,7 @@ class Auth extends BaseController
                 return redirect()->to("/dashboard");
 
             case "customer":
-                return redirect()->to("/menu");
+                return redirect()->to("/");
         }
     }
 
@@ -81,12 +82,20 @@ class Auth extends BaseController
             "icon"  => "success",
             "text"  => "Registrasi berhasil"
         ];
-        return redirect()->back()->with("message", $message);
+        return redirect()->to("/sign-in")->with("message", $message);
     }
 
     public function signOut()
     {
+        $role = session("user.role");
         session()->destroy();
-        return redirect()->to("/");
+
+        switch ($role) {
+            case "admin":
+                return redirect()->to("/sign-in");
+
+            case "customer":
+                return redirect()->to("/");
+        }
     }
 }
