@@ -1,5 +1,6 @@
 import "./pages/product"
 import "./pages/menu"
+import "./pages/cart"
 import { Confirm, Toast } from "./functions/sweet-alert"
 
 if (document.getElementById("message")) {

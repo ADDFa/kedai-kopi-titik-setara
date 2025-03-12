@@ -18,7 +18,11 @@ $routes->group("/", ["filter" => "guest"], static function ($routes) {
 $routes->group("/", ["filter" => "auth"], static function ($routes) {
     $routes->post("sign-out", "Auth::signOut");
 
+    $routes->get("cart", "Cart::index");
     $routes->post("cart", "Cart::create");
+    $routes->delete("cart/(:num)", "Cart::delete/$1");
+    $routes->post("cart/add-product/(:num)", "Cart::addProduct/$1");
+    $routes->post("cart/reduce-product/(:num)", "Cart::reduceProduct/$1");
 });
 
 $routes->group("/", ["filter" => ["auth", "authenticate:admin"]], static function ($routes) {

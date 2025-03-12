@@ -4,7 +4,7 @@
             <img class="w-30" src="/assets/img/logo.png" alt="Logo" />
         </div>
         <div class="px-5">
-            <a href="" class="text-white relative">
+            <a href="/cart" class="text-white relative">
                 <i class="bi bi-cart text-2xl"></i>
                 <?php if (session("sign-in")): ?>
                     <div class="rounded-full bg-orange-500 w-4 h-4 text-center align-middle text-xs absolute -top-3 -right-3" data-name="user-total-product">

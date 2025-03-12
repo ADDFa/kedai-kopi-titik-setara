@@ -31,23 +31,31 @@ class Auth extends BaseController
         ];
         if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
 
-        $user = $this->userModel->where("username", $this->request->getPost("username"))->first();
-        $validPassword = password_verify($this->request->getPost("password"), $user["password"]);
-
-        if (!$validPassword) return redirect()->back()->withInput()->with("message", [
+        $failMessage = [
             "text"  => "Username atau Password salah",
             "icon"  => "warning"
-        ]);
+        ];
+        $username = $this->request->getPost("username");
+        $password = $this->request->getPost("password");
 
-        $user = $this->userModel->select(["id", "username", "name", "role"])->find($user["id"]);
+        $user = $this->userModel->select(["id", "name", "role", "password"])
+            ->asObject()
+            ->where("username", $username)
+            ->first();
+        if (!$user) return redirect()->back()->withInput()->with("message", $failMessage);
 
+        $validPassword = password_verify($password, $user->password);
+        if (!$validPassword) return redirect()->back()->withInput()->with("message", $failMessage);
+
+        $userData = (array) $user;
+        unset($userData["password"]);
         $data = [
-            "user"   => $user,
+            "user"   => $userData,
             "sign-in" => true
         ];
         session()->set($data);
 
-        switch ($user["role"]) {
+        switch ($user->role) {
             case "admin":
                 return redirect()->to("/dashboard");
 
