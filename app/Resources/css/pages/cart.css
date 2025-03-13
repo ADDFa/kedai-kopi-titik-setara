@@ -1,0 +1,5 @@
+#cart {
+    .tabs-active {
+        @apply border-b-2 border-blue-500 text-blue-500;
+    }
+}

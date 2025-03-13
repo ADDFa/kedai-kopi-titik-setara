@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@import "./pages/cart";
+
 :root {
     --body-color: #d7ccc8;
     --primary: #823200;

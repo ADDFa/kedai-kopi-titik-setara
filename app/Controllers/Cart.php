@@ -34,7 +34,8 @@ class Cart extends BaseController
         $data = [
             "title"             => "Keranjang Saya",
             "carts"             => $carts,
-            "userTotalProduct"  => $this->cartModel->userTotalProduct($userId)
+            "userTotalProduct"  => $this->cartModel->userTotalProduct($userId),
+            "active"            => "cart"
         ];
 
         return view("pages/cart/index", $data);

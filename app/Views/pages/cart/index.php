@@ -4,9 +4,18 @@
 
 <?= $this->include("pages/components/home-header") ?>
 
-<section class="container max-w-7xl mx-auto p-2 lg:p-4">
+<section id="cart" class="container max-w-7xl mx-auto p-2 lg:p-4">
     <!-- actions -->
-    <div class="my-4 text-end">
+    <div class="my-4 flex justify-between">
+        <ul class="flex gap-3">
+            <li>
+                <a href="/cart" class="py-3 <?= $active === "cart" ?  "tabs-active" : "" ?>">Keranjang</a>
+            </li>
+            <li>
+                <a href="/order" class="py-3 <?= $active === "order" ?  "tabs-active" : "" ?>">Pesanan</a>
+            </li>
+        </ul>
+
         <a href="/" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">
             <i class="bi bi-arrow-left"></i>
         </a>

@@ -23,6 +23,8 @@ $routes->group("/", ["filter" => "auth"], static function ($routes) {
     $routes->delete("cart/(:num)", "Cart::delete/$1");
     $routes->post("cart/add-product/(:num)", "Cart::addProduct/$1");
     $routes->post("cart/reduce-product/(:num)", "Cart::reduceProduct/$1");
+
+    $routes->get("order", "Order::index");
 });
 
 $routes->group("/", ["filter" => ["auth", "authenticate:admin"]], static function ($routes) {
