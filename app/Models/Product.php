@@ -64,6 +64,8 @@ class Product extends Model
                     o_i.product_id,
                     COUNT(o_i.product_id) AS sold
                 FROM order_items o_i
+                INNER JOIN orders o ON o.id = o_i.order_id
+                WHERE o.status = 'completed'
                 GROUP BY o_i.product_id
             ) AS s_i ON p.id = s_i.product_id";
 

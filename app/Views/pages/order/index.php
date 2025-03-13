@@ -51,7 +51,7 @@
             <?php foreach ($order->items as $item): ?>
                 <div class="flex gap-2">
                     <div>
-                        <img src="<?= $item->picture ?>" alt="<?= $item->name ?>" class="max-w-40 aspect-square">
+                        <img src="<?= $item->picture ?>" alt="<?= $item->name ?>" class="w-28 sm:w-38 aspect-square rounded">
                         <p class="mt-2"><?= $order->order_date ?></p>
                     </div>
 

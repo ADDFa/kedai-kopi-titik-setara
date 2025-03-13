@@ -63,7 +63,7 @@ class Order extends Model
             ->join("products p", "p.id = o_i.product_id", "INNER")
             ->join("categories c", "c.id = p.category_id", "INNER")
             ->where("o.user_id", $userId)
-            ->orderBy("o.order_date", "DESC")
+            ->orderBy("UNIX_TIMESTAMP(o.order_date)", "DESC")
             ->asObject()->findAll();
 
         $result = [];

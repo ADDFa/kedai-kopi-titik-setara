@@ -4,8 +4,6 @@
 
 <?= $this->include("pages/components/home-header") ?>
 
-<p><?= session("errMsg") ?: "----------------- ----------------" ?></p>
-
 <section id="cart" class="container max-w-7xl mx-auto p-2 lg:p-4">
     <!-- actions -->
     <div class="my-4 flex justify-between">

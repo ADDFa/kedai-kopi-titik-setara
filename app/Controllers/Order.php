@@ -16,6 +16,20 @@ class Order extends BaseController
         $this->cartModel = new Cart();
     }
 
+    private function validateUserId(int $orderId)
+    {
+        $userId = session("user.id");
+        $order = $this->orderModel->find($orderId);
+
+        if ($order->user_id != $userId) return [
+            false,
+            ["text" => "Akses ditolak!", "icon" => "error"],
+            $order
+        ];
+
+        return [true, null, $order];
+    }
+
     public function index()
     {
         $userId = session("user.id");
@@ -84,6 +98,9 @@ class Order extends BaseController
 
     public function cancel(int $id)
     {
+        list($valid, $message) = $this->validateUserId($id);
+        if (!$valid) return redirect()->back()->with("message", $message);
+
         $this->orderModel->update($id, ["status" => "canceled"]);
 
         return redirect()->back()->with("message", [
