@@ -55,6 +55,10 @@ addProductsBtn.forEach((btn) => {
         )
         if (!productCase) return
 
+        const container = document.querySelector(
+            `[data-name="user-total-product"]`
+        )
+
         try {
             const response = await fetch(`/cart/add-product/${id}`, {
                 method: "POST"
@@ -63,6 +67,9 @@ addProductsBtn.forEach((btn) => {
 
             const { qty } = await response.json()
             productCase.textContent = qty
+
+            let cartTotal = parseInt(container.textContent)
+            container.textContent = ++cartTotal
         } catch (e) {
             console.warn(e)
         }
@@ -80,6 +87,10 @@ reduceProductsBtn.forEach((btn) => {
         )
         if (!productCase) return
 
+        const container = document.querySelector(
+            `[data-name="user-total-product"]`
+        )
+
         try {
             const response = await fetch(`/cart/reduce-product/${id}`, {
                 method: "POST"
@@ -88,6 +99,9 @@ reduceProductsBtn.forEach((btn) => {
 
             const { qty } = await response.json()
             productCase.textContent = qty
+
+            let cartTotal = parseInt(container.textContent)
+            container.textContent = --cartTotal
         } catch (e) {
             console.warn(e)
         }

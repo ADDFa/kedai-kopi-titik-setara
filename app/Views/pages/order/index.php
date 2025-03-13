@@ -24,7 +24,27 @@
     <!-- content -->
     <?php foreach ($orders as $order): ?>
         <div class="shadow rounded-lg p-4 mb-4">
-            <p class="text-(--primary) text-end">
+            <p class="<?php
+                        switch ($order->status) {
+                            case "completed":
+                                echo "text-(--primary)";
+                                break;
+
+                            case "pending":
+                                echo "text-amber-500";
+                                break;
+
+                            case "canceled":
+                                echo "text-red-600";
+                                break;
+
+                            case "processed":
+                                echo "text-green-600";
+                                break;
+                        }
+                        ?>
+                text-end
+            ">
                 <?= $order->status ?>
             </p>
 
@@ -49,6 +69,16 @@
                 </div>
                 <hr class="my-4 text-gray-400" />
             <?php endforeach ?>
+
+            <div class="flex justify-end gap-1">
+                <?php if ($order->status === "pending"): ?>
+                    <form action="/order/<?= $order->id ?>/cancel" method="POST">
+                        <button class="px-3 py-2 rounded-lg border transition-colors border-red-600 hover:bg-red-600 hover:text-white">
+                            Batalkan Pesanan
+                        </button>
+                    </form>
+                <?php endif ?>
+            </div>
         </div>
     <?php endforeach ?>
 </section>

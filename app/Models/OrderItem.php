@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class OrderItem extends Model
 {
-    protected $table            = 'orderitems';
+    protected $table            = 'order_items';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["order_id", "product_id", "qty", "subtotal"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

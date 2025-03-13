@@ -12,7 +12,7 @@ class Order extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ["user_id", "status", "total_price", "order_date"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -58,14 +58,12 @@ class Order extends Model
     private function withItems($userId = null): array
     {
         $data = $this->setTable("orders o")
-            ->select("o.id, o_i.id AS item_id, c.name AS category, o.status, o.total_price, o.order_date, p.name, p.price, p.picture, SUM(o_i.qty) AS qty, o_i.product_id, SUM(o_i.subtotal) AS subtotal")
+            ->select("o.id, o.status, o.order_date, o.total_price, o_i.id AS item_id, o_i.subtotal, o_i.qty, p.name, c.name AS category, p.price, p.picture")
             ->join("order_items o_i", "o_i.order_id = o.id", "INNER")
             ->join("products p", "p.id = o_i.product_id", "INNER")
-            ->join("categories c", "c.id = p.category_id", "INNER");
-
-        if ($userId) $data = $data->where("o.user_id", $userId);
-        $data = $data->groupBy("o_i.product_id")
-            ->orderBy("o.order_date DESC")
+            ->join("categories c", "c.id = p.category_id", "INNER")
+            ->where("o.user_id", $userId)
+            ->orderBy("o.order_date", "DESC")
             ->asObject()->findAll();
 
         $result = [];
@@ -86,7 +84,6 @@ class Order extends Model
                 "category"      => $d->category,
                 "picture"       => $d->picture,
                 "price"         => $d->price,
-                "product_id"    => $d->product_id,
                 "subtotal"      => $d->subtotal,
                 "qty"           => $d->qty
             ]);

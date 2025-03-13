@@ -1,8 +1,8 @@
 <header class="sticky top-0">
     <div class="h-20 flex items-center justify-between bg-(--primary)">
-        <div class="p-4">
+        <a href="/" class="p-4">
             <img class="w-30" src="/assets/img/logo.png" alt="Logo" />
-        </div>
+        </a>
         <div class="px-5">
             <a href="/cart" class="text-white relative">
                 <i class="bi bi-cart text-2xl"></i>

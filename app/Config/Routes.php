@@ -25,6 +25,8 @@ $routes->group("/", ["filter" => "auth"], static function ($routes) {
     $routes->post("cart/reduce-product/(:num)", "Cart::reduceProduct/$1");
 
     $routes->get("order", "Order::index");
+    $routes->post("order", "Order::create");
+    $routes->post("order/(:num)/cancel", "Order::cancel/$1");
 });
 
 $routes->group("/", ["filter" => ["auth", "authenticate:admin"]], static function ($routes) {

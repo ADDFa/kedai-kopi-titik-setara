@@ -4,6 +4,8 @@
 
 <?= $this->include("pages/components/home-header") ?>
 
+<p><?= session("errMsg") ?: "----------------- ----------------" ?></p>
+
 <section id="cart" class="container max-w-7xl mx-auto p-2 lg:p-4">
     <!-- actions -->
     <div class="my-4 flex justify-between">
@@ -35,7 +37,9 @@
         <tbody>
             <?php foreach ($carts as $cart): ?>
                 <tr class="shadow-lg rounded-xl text-center">
-                    <th scope="row">1</th>
+                    <th scope="row">
+                        <?= isset($no) ? ++$no : ($no = 1) ?>
+                    </th>
                     <td>
                         <div class="flex gap-2 items-center my-4">
                             <img src="<?= $cart->picture ?>" alt="Product" class="max-w-26 aspect-square rounded-xl" />
@@ -69,9 +73,9 @@
         </tbody>
     </table>
 
-    <div class="mt-4">
-        <button class="btn w-full">Order</button>
-    </div>
+    <form action="/order" method="POST" class="mt-4">
+        <button type="submit" class="btn w-full">Order</button>
+    </form>
 </section>
 
 <?= $this->endSection() ?>
