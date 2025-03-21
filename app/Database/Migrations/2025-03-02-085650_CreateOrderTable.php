@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Enum\OrderStatus;
 use CodeIgniter\Database\Migration;
 
 class CreateOrderTable extends Migration
@@ -18,7 +19,7 @@ class CreateOrderTable extends Migration
             ],
             "status"  => [
                 "type"              => "ENUM",
-                "constraint"        => ["pending", "processed", "completed", "canceled"],
+                "constraint"        => OrderStatus::values(),
                 "default"           => "pending"
             ],
             "total_price"  => [

@@ -32,4 +32,6 @@ $routes->group("/", ["filter" => "auth"], static function ($routes) {
 $routes->group("/", ["filter" => ["auth", "authenticate:admin"]], static function ($routes) {
     $routes->get("dashboard", "Home::dashboard");
     $routes->resource("product");
+
+    $routes->get("customer/order", "Order::index");
 });

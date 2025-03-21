@@ -8,47 +8,38 @@ class DashboardChart extends BaseChart
     {
         parent::__construct();
 
+        $db = db_connect();
+
+        $query = "SELECT DATE_FORMAT(order_date, '%M') AS month, DATE_FORMAT(order_date, '%m') AS month_num, COUNT(id) AS total_visitors, product_sold
+                FROM orders o
+                JOIN (
+                    SELECT SUM(qty) AS product_sold, order_id
+                    FROM order_items o_i
+                    INNER JOIN orders o ON o.id = o_i.order_id
+                    WHERE o.status = 'completed'
+                    GROUP BY o_i.order_id
+                ) AS p_s ON p_s.order_id = o.id
+                WHERE status = 'completed'
+                GROUP BY month
+                ORDER BY month_num";
+
+        $result = $db->query($query)->getResultArray();
+
         $this->type = "line";
 
         $this->data = [
-            "labels"    => ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+            "labels"    => array_column($result, "month"),
             "datasets"  => [
                 [
                     "label" => "Produk Terjual",
-                    "data"  => [
-                        "10",
-                        "5",
-                        "7",
-                        "3",
-                        "12",
-                        "8",
-                        "15",
-                        "6",
-                        "9",
-                        "14",
-                        "11",
-                        "4"
-                    ],
+                    "data"  => array_column($result, "product_sold"),
                     "borderColor"   => "oklch(0.714 0.203 305.504)",
                     "cubicInterpolationMode"    => "monotone",
                     "tension" => .4
                 ],
                 [
                     "label" => "Jumlah Pengunjung",
-                    "data"  => [
-                        "8",
-                        "14",
-                        "6",
-                        "12",
-                        "9",
-                        "4",
-                        "11",
-                        "7",
-                        "15",
-                        "3",
-                        "10",
-                        "5"
-                    ],
+                    "data"  => array_column($result, "total_visitors"),
                     "borderColor"   => "oklch(0.712 0.194 13.428)",
                     "cubicInterpolationMode"    => "monotone",
                     "tension" => .4

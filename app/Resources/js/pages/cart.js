@@ -7,6 +7,26 @@ const addProductsBtn = document.querySelectorAll(`[data-name="add-product"]`)
 const reduceProductsBtn = document.querySelectorAll(
     `[data-name="reduce-product"]`
 )
+const paymentMethod = document.getElementById("payment-method")
+
+if (paymentMethod) {
+    const saveHistory = (data) => {
+        localStorage.setItem("_history", JSON.stringify(data))
+    }
+
+    const history = JSON.parse(localStorage.getItem("_history") || "{}")
+    if (!history.hasOwnProperty("payment-method")) {
+        history["payment-method"] = "cash"
+    }
+
+    paymentMethod.value = history["payment-method"]
+    saveHistory(history)
+
+    paymentMethod.addEventListener("input", (ev) => {
+        history["payment-method"] = ev.currentTarget.value
+        saveHistory(history)
+    })
+}
 
 deleteCartProductsBtn.forEach((btn) => {
     const handleDelete = (ev) => {
@@ -46,6 +66,14 @@ deleteCartProductsBtn.forEach((btn) => {
     btn.addEventListener("click", handleDelete)
 })
 
+const updateTotal = (total) => {
+    const containers = document.querySelectorAll(`[data-name="total"]`)
+
+    containers.forEach((container) => {
+        container.textContent = `Rp. ${total}`
+    })
+}
+
 addProductsBtn.forEach((btn) => {
     const handleAddProduct = async (ev) => {
         const { id } = ev.currentTarget.dataset
@@ -63,10 +91,11 @@ addProductsBtn.forEach((btn) => {
             const response = await fetch(`/cart/add-product/${id}`, {
                 method: "POST"
             })
-            if (!response.ok) return
+            if (!response.ok) throw new Error(await response.text())
 
-            const { qty } = await response.json()
+            const { qty, total } = await response.json()
             productCase.textContent = qty
+            updateTotal(total)
 
             let cartTotal = parseInt(container.textContent)
             container.textContent = ++cartTotal
@@ -95,10 +124,11 @@ reduceProductsBtn.forEach((btn) => {
             const response = await fetch(`/cart/reduce-product/${id}`, {
                 method: "POST"
             })
-            if (!response.ok) return
+            if (!response.ok) throw new Error(await response.text())
 
-            const { qty } = await response.json()
+            const { qty, total } = await response.json()
             productCase.textContent = qty
+            updateTotal(total)
 
             let cartTotal = parseInt(container.textContent)
             container.textContent = --cartTotal

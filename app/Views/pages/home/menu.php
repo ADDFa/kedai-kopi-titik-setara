@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="text-end mt-3">
-                    <button id="add-to-cart" data-user-id="<?= session("user.id") ?? "" ?>" data-product-id="<?= $product->id ?>" type="button" class="rounded bg-(--primary) text-white px-2 py-1">
+                    <button data-action="add-to-cart" data-user-id="<?= session("user.id") ?? "" ?>" data-product-id="<?= $product->id ?>" type="button" class="rounded bg-(--primary) text-white px-2 py-1">
                         <i class="bi bi-cart-plus"></i>
                     </button>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Enum\UserRole;
 use CodeIgniter\Database\Migration;
 
 class CreateUserTable extends Migration
@@ -28,7 +29,7 @@ class CreateUserTable extends Migration
             ],
             "role"  => [
                 "type"              => "ENUM",
-                "constraint"        => ["admin", "customer"],
+                "constraint"        => UserRole::values(),
                 "default"           => "customer"
             ],
             "created_at" => [

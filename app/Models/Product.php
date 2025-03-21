@@ -9,7 +9,7 @@ class Product extends Model
     protected $table            = 'products';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['category_id', 'name', 'price', 'picture', 'qty'];
@@ -46,8 +46,10 @@ class Product extends Model
 
     public function withCategory()
     {
-        return $this->setTable("products as p")->select("p.id, category_id, p.name, p.price, p.picture, p.qty, c.name AS category_name")
-            ->join("categories AS c", "c.id = p.category_id", "LEFT");
+        return $this->setTable("products as p")
+            ->select("p.id, category_id, p.name, p.price, p.picture, c.name AS category_name")
+            ->join("categories AS c", "c.id = p.category_id", "LEFT")
+            ->orderBy("id", "DESC");
     }
 
     public function get(string $category = "", array $options = [])

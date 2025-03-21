@@ -9,33 +9,49 @@ class Cart extends BaseController
 {
     private $cartModel;
 
-    private function validateUserId(int $cartId): array
-    {
-        $cart = $this->cartModel->asObject()->find($cartId);
-        if (!$cart || $cart->user_id != session("user.id")) return [false, ["text" => "Akses ditolak!", $cart]];
-
-        return [true, null, $cart];
-    }
-
     public function __construct()
     {
         $this->cartModel = new ModelsCart();
     }
 
+    private function validateUserId(int $cartId): array
+    {
+        $cart = $this->cartModel->find($cartId);
+        if (!$cart || $cart->user_id != session("user.id")) return [false, ["text" => "Akses ditolak!", $cart]];
+
+        return [true, null, $cart];
+    }
+
+    public static function total(bool $format = true)
+    {
+        $cartModel = new ModelsCart();
+        $userId = session("user.id");
+        $total = $cartModel
+            ->select("SUM(qty * products.price) as total")
+            ->join("products", "products.id = product_id", "inner")
+            ->groupBy("user_id")
+            ->where("user_id", $userId)
+            ->find()[0]->total ?? 0;
+
+        return $format ? number_format($total, 2, ",", ".") : $total;
+    }
+
     public function index()
     {
         $userId = session("user.id");
-        $carts = $this->cartModel->setTable("carts c")->where("user_id", $userId)
-            ->join("products p", "p.id = c.id", "inner")
-            ->join("categories cat", "cat.id = p.category_id", "inner")
-            ->select("p.id, cat.name AS category, p.name, p.price, p.picture, c.qty")
-            ->asObject()->findAll();
+        $carts = $this->cartModel->setTable("carts c")
+            ->select("c.id, p.id AS product_id, p.name, p.price, (p.price * c.qty) AS subtotal, p.picture, c.qty")
+            ->join("products p", "p.id = c.product_id", "inner")
+            ->where("user_id", $userId)
+            ->orderBy("name", "ASC")
+            ->findAll();
 
         $data = [
             "title"             => "Keranjang Saya",
             "carts"             => $carts,
             "userTotalProduct"  => $this->cartModel->userTotalProduct($userId),
-            "active"            => "cart"
+            "active"            => "cart",
+            "total"             => self::total()
         ];
 
         return view("pages/cart/index", $data);
@@ -44,17 +60,23 @@ class Cart extends BaseController
     public function create()
     {
         $rules = [
-            "user_id"       => "required|is_not_unique[users.id]",
-            "product_id"    => "required|is_not_unique[products.id]"
+            "product_id"    => "required"
         ];
-        if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+        if (!$this->validate($rules)) {
+            return response()->setJSON($this->validator->getErrors());
+        }
 
-        $data = $this->validator->getValidated();
-        $data["qty"] = 1;
-
-        $userId = $this->request->getPost("user_id");
+        $userId = session("user.id");
         $productId = $this->request->getPost("product_id");
-        $cart = $this->cartModel->where("user_id", $userId)->where("product_id", $productId)->asObject()->first();
+
+        $data = [
+            "user_id"       => $userId,
+            "product_id"    => $productId,
+            "qty"           => 1
+        ];
+
+        // cek apakah produk sudah ada di keranjang
+        $cart = $this->cartModel->where("user_id", $userId)->where("product_id", $productId)->first();
 
         if ($cart) $this->cartModel->update($cart->id, ["qty" => $cart->qty + 1]);
         if (!$cart) $this->cartModel->insert($data);
@@ -82,6 +104,7 @@ class Cart extends BaseController
         $data = ["qty" => ++$cart->qty];
         $this->cartModel->update($id, $data);
 
+        $data["total"] = self::total();
         return response()->setJSON($data);
     }
 
@@ -95,6 +118,7 @@ class Cart extends BaseController
         $data = ["qty" => --$cart->qty];
         $this->cartModel->update($id, $data);
 
+        $data["total"] = self::total();
         return response()->setJSON($data);
     }
 }

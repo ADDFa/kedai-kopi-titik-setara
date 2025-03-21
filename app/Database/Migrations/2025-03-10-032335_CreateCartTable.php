@@ -21,6 +21,14 @@ class CreateCartTable extends Migration
             ],
             "qty" => [
                 "type"  => "INTEGER"
+            ],
+            "created_at" => [
+                "type"              => "TIMESTAMP",
+                "null"              => true
+            ],
+            "updated_at" => [
+                "type"              => "TIMESTAMP",
+                "null"              => true
             ]
         ]);
 

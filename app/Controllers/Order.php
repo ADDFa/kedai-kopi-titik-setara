@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Controllers\Cart as ControllersCart;
 use App\Models\Cart;
 use App\Models\Order as ModelsOrder;
+use Symfony\Component\Uid\Uuid;
 
 class Order extends BaseController
 {
@@ -47,52 +49,66 @@ class Order extends BaseController
 
     public function create()
     {
-        $orderItemModel = new \App\Models\OrderItem();
+        $rules = [
+            "payment_method"    =>  "required|in_list[qris,cash]"
+        ];
+
+        if (!$this->validate($rules)) return redirect()->back()->withInput()
+            ->with("errors", $this->validator->getErrors());
+
         $userId = session("user.id");
-        $this->orderModel->db->transStart();
+        $orderItemModel = new \App\Models\OrderItem();
+        $paymentModel = new \App\Models\Payment();
 
         try {
-            // ambil seluruh produk di keranjang
-            $carts = $this->cartModel
-                ->setTable("carts c")
-                ->select("c.id, p.id AS product_id, p.name, p.price, (p.price * c.qty) AS subtotal, c.qty")
-                ->join("products p", "p.id = c.product_id", "INNER")
-                ->where("user_id", $userId)
-                ->asObject()
-                ->findAll();
+            $this->orderModel->db->transStart();
 
-            // hitung jumlah nominal harga
-            $totalPrice = array_sum(array_column((array) $carts, "subtotal"));
-
-            // buat order baru
+            // simpan data order
             $orderId = $this->orderModel->insert([
                 "user_id"       => $userId,
-                "status"        => "pending",
-                "total_price"   => $totalPrice,
-                "order_date"    => date("Y-m-d H:i:s", time())
+                "total_price"   => ControllersCart::total(false),
+                "order_date"    => date("Y-m-d H:i:s")
             ]);
 
+            // simpan data products yang di order
+            $carts = $this->cartModel
+                ->setTable("carts c")
+                ->select([
+                    "product_id",
+                    "c.qty",
+                    "(p.price * c.qty) AS subtotal"
+                ])
+                ->join("products p", "p.id = product_id", "inner")
+                ->where("user_id", $userId)->findAll();
+
             foreach ($carts as $cart) {
-                // buat order items
                 $orderItemModel->insert([
                     "order_id"      => $orderId,
                     "product_id"    => $cart->product_id,
                     "qty"           => $cart->qty,
                     "subtotal"      => $cart->subtotal
                 ]);
-
-                // hapus dari keranjang
-                $this->cartModel->delete($cart->id);
             }
+
+            // simpan data pembayaran
+            $paymentModel->insert([
+                "order_id"          => $orderId,
+                "payment_method"    => $this->request->getPost("payment_method"),
+                "transaction_id"    => Uuid::v7(),
+                "date"              => date("Y-m-d H:i:s")
+            ]);
+
+            // kosongkan keranjang
+            $this->cartModel->where("user_id", $userId)->delete();
 
             $this->orderModel->db->transCommit();
 
             return redirect()->back()->with("message", [
-                "text"  => "Produk berhasil di order."
+                "text"  => "Order telah dibuat, silakan lakukan pembayaran!"
             ]);
         } catch (\Exception $e) {
             $this->orderModel->db->transRollback();
-            return redirect()->back()->with("errMsg", $e->getMessage());
+            return redirect()->back()->with("server_error", $e->getMessage());
         }
     }
 

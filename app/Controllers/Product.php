@@ -18,7 +18,7 @@ class Product extends BaseController
     private function categories(): array
     {
         $categoryModel = new Category();
-        $categories = $categoryModel->select("id, name")->asObject()->findAll();
+        $categories = $categoryModel->select("id, name")->findAll();
 
         return $categories;
     }
@@ -30,7 +30,7 @@ class Product extends BaseController
         $keyword = $this->request->getGet("keyword");
         if ($keyword) $query->like("p.name", $keyword);
 
-        $products = $query->asObject()->findAll();
+        $products = $query->findAll();
         $data = [
             "title"     => "Data Produk",
             "active"    => "product",
@@ -58,8 +58,7 @@ class Product extends BaseController
             "name"          => "required|max_length[255]",
             "category_id"   => "required|is_not_unique[categories.id]",
             "picture"       => "uploaded[picture]|max_size[picture,1024]|ext_in[picture,jpg,jpeg,png]",
-            "price"         => "required|numeric",
-            "qty"           => "required|integer"
+            "price"         => "required|numeric"
         ];
 
         if (!$this->validate($rules)) {
@@ -83,7 +82,7 @@ class Product extends BaseController
 
     public function show(int $id): string
     {
-        $product = $this->productModel->withCategory()->where("p.id", $id)->asObject()->first();
+        $product = $this->productModel->withCategory()->where("p.id", $id)->first();
         $data = [
             "title"     => "Detail Produk",
             "active"    => "product",
@@ -95,7 +94,7 @@ class Product extends BaseController
 
     public function edit(int $id): string
     {
-        $product = $this->productModel->withCategory()->where("p.id", $id)->asObject()->first();
+        $product = $this->productModel->withCategory()->where("p.id", $id)->first();
         $product->price = intval($product->price);
 
         $data = [
@@ -114,14 +113,14 @@ class Product extends BaseController
         $rules = [
             "name"          => "required|max_length[255]",
             "category_id"   => "required|is_not_unique[categories.id]",
-            "price"         => "required|numeric",
-            "qty"           => "required|integer"
+            "price"         => "required|numeric"
         ];
 
-        if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+        if (!$this->validate($rules)) return redirect()->back()->withInput()
+            ->with("errors", $this->validator->getErrors());
 
         $data = $this->validator->getValidated();
-        $product = $this->productModel->asObject()->find($id);
+        $product = $this->productModel->find($id);
         $picture = $this->request->getFile("picture");
 
         if ($picture->isValid()) {
@@ -157,7 +156,7 @@ class Product extends BaseController
 
     public function delete(int $id)
     {
-        $product = $this->productModel->asObject()->find($id);
+        $product = $this->productModel->find($id);
         $message = [
             "text"  => "Data produk berhasil dihapus"
         ];

@@ -14,11 +14,19 @@
         </button>
     </form>
 
-    <div>
-        <a href="/product/new" class="btn" title="Tambah Produk">
-            <span class="hidden lg:inline">Tambah Produk</span>
-            <i class="bi bi-folder-plus lg:hidden"></i>
-        </a>
+    <div class="relative">
+        <button class="btn" data-toggle="dropdown" data-target="add-dropdown">
+            <i class="bi bi-plus-lg"></i>
+        </button>
+
+        <ul id="add-dropdown" class="dropdown absolute top-[calc(100%+4px)] right-0 min-w-xs py-3 rounded bg-white/95 shadow-xl">
+            <li class="mb-1">
+                <a href="/product/category/new" class="block py-2 px-3 hover:bg-gray-200">Tambah Kategori Produk</a>
+            </li>
+            <li>
+                <a href="/product/new" class="block py-2 px-3 hover:bg-gray-200">Tambah Produk</a>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -31,7 +39,6 @@
                 <th scope="col">Produk</th>
                 <th scope="col">Kategori</th>
                 <th scope="col">Harga</th>
-                <th scope="col">Jumlah</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
@@ -46,7 +53,6 @@
                     </td>
                     <td class="py-4"><?= $product->category_name ?></td>
                     <td class="py-4"><?= $product->price ?></td>
-                    <td class="py-4"><?= $product->qty ?></td>
                     <td class="py-4">
                         <div class="flex gap-1 items-center justify-center">
                             <a href="/product/<?= $product->id ?>/edit" class="bg-amber-400 hover:bg-amber-300 text-white px-3 py-2 rounded-lg transition-colors">

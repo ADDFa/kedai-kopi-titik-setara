@@ -29,7 +29,8 @@ class Auth extends BaseController
             "username"  => "required",
             "password"  => "required"
         ];
-        if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+        if (!$this->validate($rules)) return redirect()->back()->withInput()
+            ->with("errors", $this->validator->getErrors());
 
         $failMessage = [
             "text"  => "Username atau Password salah",
@@ -39,7 +40,6 @@ class Auth extends BaseController
         $password = $this->request->getPost("password");
 
         $user = $this->userModel->select(["id", "name", "role", "password"])
-            ->asObject()
             ->where("username", $username)
             ->first();
         if (!$user) return redirect()->back()->withInput()->with("message", $failMessage);
@@ -80,7 +80,8 @@ class Auth extends BaseController
             "username"  => "required|is_unique[users.username]",
             "password"  => "required|min_length[8]"
         ];
-        if (!$this->validate($rules)) return redirect()->back()->withInput()->with("errors", $this->validator->getErrors());
+        if (!$this->validate($rules)) return redirect()->back()->withInput()
+            ->with("errors", $this->validator->getErrors());
 
         $data = $this->validator->getValidated();
         $data["password"] = password_hash($data["password"], PASSWORD_BCRYPT);

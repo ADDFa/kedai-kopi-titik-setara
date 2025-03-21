@@ -48,14 +48,6 @@
                 <?php endif ?>
                 <p class="invalid-feedback"><?= session("errors.price") ?></p>
             </div>
-            <div class="flex flex-col mt-3 relative">
-                <label for="qty" class="text-sm mb-3">Jumlah</label>
-                <input autocomplete="off" type="text" name="qty" inputmode="numeric" pattern="[0-9]*" placeholder="Jhon Doe" id="qty" class="border <?= session("errors.qty") ? "border-red-400" : "border-gray-400" ?> rounded p-2 outline-none placeholder:text-xs" value="<?= old("qty") ?: $product->qty ?>" />
-                <?php if (session("errors.name")): ?>
-                    <i class="bi bi-exclamation-triangle text-red-500 absolute bottom-7 right-3"></i>
-                <?php endif ?>
-                <p class="invalid-feedback"><?= session("errors.qty") ?></p>
-            </div>
             <div class="pt-10 pb-4 text-end">
                 <button type="submit" class="btn">Simpan</button>
             </div>

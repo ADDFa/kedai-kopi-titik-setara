@@ -52,3 +52,39 @@ if (document.querySelector(`[data-action="confirm"]`)) {
         btn.addEventListener("click", handler)
     })
 }
+
+const toggleHandlers = {
+    dropdown(ev) {
+        const { target } = ev.currentTarget.dataset
+
+        const dropdownMenu = document.getElementById(target)
+        dropdownMenu?.classList.toggle("show")
+    }
+}
+
+const toggleButtons = document.querySelectorAll(`[data-toggle]`)
+
+toggleButtons.forEach((btn) => {
+    const handleToggleClick = (ev) => {
+        const { toggle } = ev.currentTarget.dataset
+        if (toggleHandlers[toggle]) toggleHandlers[toggle](ev)
+    }
+
+    btn.addEventListener("click", handleToggleClick)
+})
+
+document.addEventListener("click", (ev) => {
+    toggleButtons.forEach((btn) => {
+        const { toggle } = btn.dataset
+
+        switch (toggle) {
+            case "dropdown":
+                const dropdownMenu = document.getElementById(btn.dataset.target)
+                if (btn.contains(ev.target) || dropdownMenu.contains(ev.target))
+                    return
+
+                dropdownMenu.classList.remove("show")
+                break
+        }
+    })
+})

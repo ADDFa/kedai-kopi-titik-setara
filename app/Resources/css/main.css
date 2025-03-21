@@ -35,3 +35,24 @@ button,
 .btn {
     @apply bg-(--primary) text-white px-3 py-2 rounded-lg hover:bg-[#D15000] transition-colors;
 }
+
+.dropdown {
+    opacity: 0;
+    display: none;
+}
+
+.dropdown.show {
+    display: block;
+    animation: dropdown forwards 300ms;
+}
+
+@keyframes dropdown {
+    0% {
+        opacity: 0;
+        display: block;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

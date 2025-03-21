@@ -18,7 +18,7 @@ class CreatePaymentTable extends Migration
             ],
             "payment_method"  => [
                 "type"              => "ENUM",
-                "constraint"        => ["cash", "e-wallet", "debit_card", "credit_card"]
+                "constraint"        => ["cash", "qris"]
             ],
             "status"  => [
                 "type"              => "ENUM",

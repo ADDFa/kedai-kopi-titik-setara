@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Cart extends Model
+class Payment extends Model
 {
-    protected $table            = 'carts';
+    protected $table            = 'payments';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["user_id", "product_id", "qty"];
+    protected $allowedFields    = ["order_id", "payment_method", "status", "transaction_id", "date"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,14 +43,4 @@ class Cart extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function userTotalProduct($userId)
-    {
-        if (!$userId) return 0;
-
-        $query = "SELECT COALESCE(SUM(qty), 0) AS total_product FROM carts
-            WHERE user_id = $userId";
-
-        return $this->db->query($query)->getFirstRow()->total_product;
-    }
 }

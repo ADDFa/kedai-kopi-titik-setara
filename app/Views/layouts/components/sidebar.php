@@ -10,6 +10,11 @@ $sidebarList = [
         "text"      => "Produk",
         "icon"      => "box-seam",
         "action"    => "product"
+    ],
+    [
+        "text"      => "Pesanan",
+        "icon"      => "receipt",
+        "action"    => "customer/order"
     ]
 ];
 
