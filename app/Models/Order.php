@@ -48,22 +48,25 @@ class Order extends Model
     {
         switch ($with) {
             case "items":
-                return $this->withItems($options["user_id"]);
+                return $this->withItems($options);
 
             default:
                 return [];
         }
     }
 
-    private function withItems($userId = null): array
+    private function withItems($options): array
     {
         $data = $this->setTable("orders o")
             ->select("o.id, o.status, o.order_date, o.total_price, o_i.id AS item_id, o_i.subtotal, o_i.qty, p.name, c.name AS category, p.price, p.picture")
             ->join("order_items o_i", "o_i.order_id = o.id", "INNER")
             ->join("products p", "p.id = o_i.product_id", "INNER")
-            ->join("categories c", "c.id = p.category_id", "INNER")
-            ->where("o.user_id", $userId)
-            ->orderBy("UNIX_TIMESTAMP(o.order_date)", "DESC")
+            ->join("categories c", "c.id = p.category_id", "INNER");
+
+        if (isset($options["user_id"])) $data = $data->where("o.user_id", $options["user_id"]);
+        if (isset($options["status"])) $data = $data->where("o.status", $options["status"]);
+
+        $data = $data->orderBy("UNIX_TIMESTAMP(o.order_date)", "DESC")
             ->asObject()->findAll();
 
         $result = [];

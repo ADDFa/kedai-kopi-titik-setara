@@ -21,7 +21,7 @@
 
         <ul id="add-dropdown" class="dropdown absolute top-[calc(100%+4px)] right-0 min-w-xs py-3 rounded bg-white/95 shadow-xl">
             <li class="mb-1">
-                <a href="/product/category/new" class="block py-2 px-3 hover:bg-gray-200">Tambah Kategori Produk</a>
+                <a href="/product-category/new" class="block py-2 px-3 hover:bg-gray-200">Tambah Kategori Produk</a>
             </li>
             <li>
                 <a href="/product/new" class="block py-2 px-3 hover:bg-gray-200">Tambah Produk</a>

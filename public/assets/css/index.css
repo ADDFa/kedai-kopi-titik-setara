@@ -6,6 +6,7 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-300: oklch(0.808 0.114 19.571);
     --color-red-400: oklch(0.704 0.191 22.216);
     --color-red-500: oklch(0.637 0.237 25.331);
     --color-red-600: oklch(0.577 0.245 27.325);
@@ -16,13 +17,18 @@
     --color-amber-500: oklch(0.769 0.188 70.08);
     --color-amber-700: oklch(0.555 0.163 48.998);
     --color-amber-800: oklch(0.473 0.137 46.201);
+    --color-green-300: oklch(0.871 0.15 154.449);
     --color-green-600: oklch(0.627 0.194 149.214);
+    --color-green-700: oklch(0.527 0.154 150.069);
     --color-cyan-200: oklch(0.917 0.08 205.041);
     --color-cyan-700: oklch(0.52 0.105 223.128);
+    --color-blue-300: oklch(0.809 0.105 251.813);
     --color-blue-400: oklch(0.707 0.165 254.624);
     --color-blue-500: oklch(0.623 0.214 259.815);
+    --color-blue-700: oklch(0.488 0.243 264.376);
     --color-indigo-600: oklch(0.511 0.262 276.966);
     --color-purple-200: oklch(0.902 0.063 306.703);
+    --color-pink-700: oklch(0.525 0.223 3.958);
     --color-rose-200: oklch(0.892 0.058 10.001);
     --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-200: oklch(0.928 0.006 264.531);
@@ -30,6 +36,7 @@
     --color-gray-400: oklch(0.707 0.022 261.325);
     --color-gray-500: oklch(0.551 0.027 264.364);
     --color-gray-600: oklch(0.446 0.03 256.802);
+    --color-gray-700: oklch(0.373 0.034 259.733);
     --color-zinc-400: oklch(0.705 0.015 286.067);
     --color-zinc-700: oklch(0.37 0.013 285.805);
     --color-white: #fff;
@@ -218,6 +225,9 @@
   }
 }
 @layer utilities {
+  .collapse {
+    visibility: collapse;
+  }
   .visible {
     visibility: visible;
   }
@@ -290,6 +300,9 @@
   .my-1 {
     margin-block: calc(var(--spacing) * 1);
   }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
+  }
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
   }
@@ -301,6 +314,9 @@
   }
   .ms-6 {
     margin-inline-start: calc(var(--spacing) * 6);
+  }
+  .ms-auto {
+    margin-inline-start: auto;
   }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
@@ -368,6 +384,12 @@
   .inline-block {
     display: inline-block;
   }
+  .inline-flex {
+    display: inline-flex;
+  }
+  .list-item {
+    display: list-item;
+  }
   .table {
     display: table;
   }
@@ -398,6 +420,9 @@
   .h-\[calc\(100lvh-72px\)\] {
     height: calc(100lvh - 72px);
   }
+  .h-dvh {
+    height: 100dvh;
+  }
   .h-full {
     height: 100%;
   }
@@ -422,6 +447,9 @@
   .w-16 {
     width: calc(var(--spacing) * 16);
   }
+  .w-24 {
+    width: calc(var(--spacing) * 24);
+  }
   .w-28 {
     width: calc(var(--spacing) * 28);
   }
@@ -436,6 +464,9 @@
   }
   .w-\[calc\(100\%-0\.5rem\)\] {
     width: calc(100% - 0.5rem);
+  }
+  .w-dvw {
+    width: 100dvw;
   }
   .w-fit {
     width: fit-content;
@@ -452,6 +483,9 @@
   .max-w-26 {
     max-width: calc(var(--spacing) * 26);
   }
+  .max-w-sm {
+    max-width: var(--container-sm);
+  }
   .min-w-xs {
     min-width: var(--container-xs);
   }
@@ -461,6 +495,9 @@
   .flex-none {
     flex: none;
   }
+  .border-collapse {
+    border-collapse: collapse;
+  }
   .border-separate {
     border-collapse: separate;
   }
@@ -468,8 +505,14 @@
     --tw-border-spacing-y: calc(var(--spacing) * 4);
     border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
   }
+  .transform {
+    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+  }
   .cursor-pointer {
     cursor: pointer;
+  }
+  .resize {
+    resize: both;
   }
   .appearance-none {
     appearance: none;
@@ -480,8 +523,14 @@
   .flex-wrap {
     flex-wrap: wrap;
   }
+  .place-items-center {
+    place-items: center;
+  }
   .items-center {
     align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
   }
   .justify-between {
     justify-content: space-between;
@@ -516,6 +565,11 @@
   .self-start {
     align-self: flex-start;
   }
+  .truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .overflow-auto {
     overflow: auto;
   }
@@ -540,6 +594,10 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
+  }
+  .border-t-4 {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 4px;
   }
   .border-b {
     border-bottom-style: var(--tw-border-style);
@@ -566,17 +624,29 @@
   .border-red-700 {
     border-color: var(--color-red-700);
   }
+  .border-t-pink-700 {
+    border-top-color: var(--color-pink-700);
+  }
   .border-b-zinc-400 {
     border-bottom-color: var(--color-zinc-400);
   }
   .bg-\(--primary\) {
     background-color: var(--primary);
   }
+  .bg-amber-300 {
+    background-color: var(--color-amber-300);
+  }
   .bg-amber-400 {
     background-color: var(--color-amber-400);
   }
   .bg-amber-800 {
     background-color: var(--color-amber-800);
+  }
+  .bg-blue-300 {
+    background-color: var(--color-blue-300);
+  }
+  .bg-blue-700 {
+    background-color: var(--color-blue-700);
   }
   .bg-cyan-200 {
     background-color: var(--color-cyan-200);
@@ -590,11 +660,23 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
+  .bg-green-300 {
+    background-color: var(--color-green-300);
+  }
+  .bg-green-600 {
+    background-color: var(--color-green-600);
+  }
+  .bg-green-700 {
+    background-color: var(--color-green-700);
+  }
   .bg-orange-500 {
     background-color: var(--color-orange-500);
   }
   .bg-purple-200 {
     background-color: var(--color-purple-200);
+  }
+  .bg-red-300 {
+    background-color: var(--color-red-300);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
@@ -602,8 +684,14 @@
   .bg-rose-200 {
     background-color: var(--color-rose-200);
   }
+  .bg-white {
+    background-color: var(--color-white);
+  }
   .bg-white\/95 {
     background-color: color-mix(in oklab, var(--color-white) 95%, transparent);
+  }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
@@ -727,6 +815,9 @@
   .text-nowrap {
     text-wrap: nowrap;
   }
+  .text-wrap {
+    text-wrap: wrap;
+  }
   .text-\(--primary\) {
     color: var(--primary);
   }
@@ -747,6 +838,9 @@
   }
   .text-gray-600 {
     color: var(--color-gray-600);
+  }
+  .text-gray-700 {
+    color: var(--color-gray-700);
   }
   .text-green-600 {
     color: var(--color-green-600);
@@ -769,6 +863,15 @@
   .text-zinc-700 {
     color: var(--color-zinc-700);
   }
+  .lowercase {
+    text-transform: lowercase;
+  }
+  .normal-case {
+    text-transform: none;
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
   .italic {
     font-style: italic;
   }
@@ -786,6 +889,10 @@
   .shadow-xl {
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .outline {
+    outline-style: var(--tw-outline-style);
+    outline-width: 1px;
   }
   .blur {
     --tw-blur: blur(8px);
@@ -1161,6 +1268,31 @@ button, [role="button"]:hover {
   inherits: false;
   initial-value: 0;
 }
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateX(0);
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateY(0);
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateZ(0);
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewX(0);
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewY(0);
+}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -1229,6 +1361,11 @@ button, [role="button"]:hover {
   inherits: false;
   initial-value: 0 0 #0000;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -1276,11 +1413,6 @@ button, [role="button"]:hover {
 @property --tw-ease {
   syntax: "*";
   inherits: false;
-}
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
 }
 @property --tw-translate-x {
   syntax: "*";

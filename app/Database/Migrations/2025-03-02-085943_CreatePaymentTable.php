@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Enum\PaymentStatus;
 use CodeIgniter\Database\Migration;
 
 class CreatePaymentTable extends Migration
@@ -22,7 +23,7 @@ class CreatePaymentTable extends Migration
             ],
             "status"  => [
                 "type"              => "ENUM",
-                "constraint"        => ["pending", "paid", "failed"]
+                "constraint"        => PaymentStatus::values()
             ],
             "transaction_id"  => [
                 "type"              => "VARCHAR",

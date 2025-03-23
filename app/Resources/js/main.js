@@ -1,7 +1,8 @@
+import { Confirm, Toast } from "./functions/sweet-alert"
 import "./pages/product"
 import "./pages/menu"
 import "./pages/cart"
-import { Confirm, Toast } from "./functions/sweet-alert"
+import "./pages/customer-order"
 
 if (document.getElementById("message")) {
     const messageElement = document.getElementById("message")
@@ -13,45 +14,45 @@ if (document.getElementById("message")) {
     })
 }
 
-if (document.querySelector(`[data-action="confirm"]`)) {
-    const buttons = document.querySelectorAll(`[data-action="confirm"]`)
+const handleConfirm = (ev) => {
+    const {
+        target,
+        icon = "warning",
+        text = "Anda yakin?"
+    } = ev.currentTarget.dataset
 
-    const handler = (ev) => {
-        const { target } = ev.currentTarget.dataset
+    Confirm.fire({ icon, text }).then((result) => {
+        if (!result.isConfirmed) return
 
-        Confirm.fire().then((result) => {
-            if (!result.isConfirmed) return
+        // form
+        const form = document.createElement("form")
+        form.style.display = "none"
+        form.action = target
+        form.method = "POST"
 
-            // form
-            const form = document.createElement("form")
-            form.style.display = "none"
-            form.action = target
-            form.method = "POST"
+        // input method
+        const method = document.createElement("input")
+        method.name = "_method"
+        method.value = "DELETE"
 
-            // input method
-            const method = document.createElement("input")
-            method.name = "_method"
-            method.value = "DELETE"
+        // submit button
+        const submit = document.createElement("button")
+        submit.type = "submit"
 
-            // submit button
-            const submit = document.createElement("button")
-            submit.type = "submit"
+        // append childs
+        form.append(method, submit)
 
-            // append childs
-            form.append(method, submit)
+        // append to page
+        document.body.appendChild(form)
 
-            // append to page
-            document.body.appendChild(form)
-
-            // send
-            form.submit()
-        })
-    }
-
-    buttons.forEach((btn) => {
-        btn.addEventListener("click", handler)
+        // send
+        form.submit()
     })
 }
+
+document.querySelectorAll(`[data-action="confirm"]`).forEach((btn) => {
+    btn.addEventListener("click", handleConfirm)
+})
 
 const toggleHandlers = {
     dropdown(ev) {

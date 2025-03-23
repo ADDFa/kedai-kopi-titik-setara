@@ -27,6 +27,7 @@ class Authenticate implements FilterInterface
     {
         if (!$arguments) return;
         if (in_array("admin", $arguments)) return $this->admin();
+        if (in_array("customer", $arguments)) return $this->customer();
     }
 
     /**
@@ -52,10 +53,27 @@ class Authenticate implements FilterInterface
 
         switch ($role) {
             case "customer":
-                return redirect()->to("/menu");
+                return redirect()->to("/");
 
             case "admin":
                 return null;
+
+            default:
+                session()->destroy();
+                return redirect()->to("/");
+        }
+    }
+
+    private function customer()
+    {
+        $role = session("user.role");
+
+        switch ($role) {
+            case "customer":
+                return null;
+
+            case "admin":
+                return redirect()->to("/dashboard");
 
             default:
                 session()->destroy();

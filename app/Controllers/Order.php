@@ -35,7 +35,7 @@ class Order extends BaseController
     public function index()
     {
         $userId = session("user.id");
-        $orders = $this->orderModel->with("items", ["user_id" => session("user.id")]);
+        $orders = $this->orderModel->with("items", ["user_id"   => session("user.id")]);
 
         $data = [
             "title"             => "Data Pesanan",
