@@ -126,4 +126,4 @@ nb-configuration.xml
 /phpunit*.xml
 node_modules
 
-public/coffe-images/*
+public/img/*
