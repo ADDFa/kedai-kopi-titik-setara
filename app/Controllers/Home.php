@@ -30,7 +30,7 @@ class Home extends BaseController
         $data = [
             "title"                 => "Home",
             "products"              => $this->productModel->get(),
-            "bestSellers"           => $this->productModel->get("best_seller", ["limit" => 5]),
+            "bestSellers"           => $this->productModel->get("best_seller", ["limit" => 6]),
             "userTotalProduct"      => $cartModel->userTotalProduct(session("user.id"))
         ];
 
@@ -47,8 +47,6 @@ class Home extends BaseController
             ->groupBy("status")
             ->first();
 
-        $total = number_format($order->total, 0, ",", ".");
-        $totalOrder = $order->total_order;
         $visitors = $this->userModel
             ->select([
                 "COUNT(id) AS total"
@@ -56,6 +54,10 @@ class Home extends BaseController
             ->where("role", UserRole::CUSTOMER)
             ->groupBy("role")
             ->first();
+
+        $total = number_format($order?->total || 0, 0, ",", ".");
+        $totalOrder = $order?->total_order ?: 0;
+        $totalVisitors = $visitors?->total ?: 0;
 
         $cards = [
             [
@@ -72,7 +74,7 @@ class Home extends BaseController
             ],
             [
                 "label"     => "Jumlah Pengunjung",
-                "value"     => $visitors->total,
+                "value"     => $totalVisitors,
                 "icon"      => "person-hearts",
                 "bg-color"  => "bg-rose-200"
             ]

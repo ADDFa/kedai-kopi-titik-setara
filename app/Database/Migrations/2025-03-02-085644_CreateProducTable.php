@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Enum\ProductType;
 use CodeIgniter\Database\Migration;
 
 class CreateProducTable extends Migration
@@ -15,6 +16,10 @@ class CreateProducTable extends Migration
             ],
             "category_id"    => [
                 "type"              => "BIGINT"
+            ],
+            "type"  => [
+                "type"              => "ENUM",
+                "constraint"        => ProductType::values()
             ],
             "name"  => [
                 "type"              => "VARCHAR",

@@ -24,6 +24,21 @@
                 <?php endif ?>
                 <p class="invalid-feedback"><?= session("errors.name") ?></p>
             </div>
+            <div class="mt-3">
+                <p>Jenis Produk</p>
+                <?php foreach ($product_types as $prodyctType): ?>
+                    <div class="flex items-center gap-2">
+                        <input autocomplete="off" type="radio" name="type" id="type_<?= $prodyctType ?>" class="border <?= session("errors.type") ? "border-red-400" : "border-gray-400" ?> rounded p-2 outline-none placeholder:text-xs" value="<?= $prodyctType ?>" <?= $prodyctType === old("type") ? "checked" : "" ?> />
+                        <label for="type_<?= $prodyctType ?>" class="text-sm"><?= strtoupper($prodyctType) ?></label>
+                    </div>
+                <?php endforeach ?>
+                <div class="flex gap-2 items-center">
+                    <?php if (session("errors.type")): ?>
+                        <i class="bi bi-exclamation-triangle text-red-500 absolute bottom-7 right-3"></i>
+                    <?php endif ?>
+                    <p class="invalid-feedback"><?= session("errors.type") ?></p>
+                </div>
+            </div>
             <div class="flex flex-col mt-3 relative">
                 <label for="category" class="text-sm mb-3">Kategori Produk</label>
                 <select name="category_id" id="category" class="border <?= session("errors.category") ? "border-red-400" : "border-gray-400" ?> rounded appearance-none p-2 outline-none hover:cursor-pointer">

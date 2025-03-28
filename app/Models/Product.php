@@ -12,7 +12,7 @@ class Product extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['category_id', 'name', 'price', 'picture', 'qty'];
+    protected $allowedFields    = ['category_id', 'name', 'type', 'price', 'picture', 'qty'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -47,7 +47,7 @@ class Product extends Model
     public function withCategory()
     {
         return $this->setTable("products as p")
-            ->select("p.id, category_id, p.name, p.price, p.picture, c.name AS category_name")
+            ->select("p.id, category_id, p.type, p.name, p.price, p.picture, c.name AS category_name")
             ->join("categories AS c", "c.id = p.category_id", "LEFT")
             ->orderBy("id", "DESC");
     }

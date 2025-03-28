@@ -19,7 +19,7 @@
     </div>
     <div class="flex-1 shadow-lg p-16 order-1 lg:order-2">
         <h2 class="text-3xl font-bold"><?= $product->name ?></h2>
-        <p class="italic text-gray-600 text-sm mt-1"><?= $product->category_name ?></p>
+        <p class="italic text-gray-600 text-sm mt-1"><?= $product->category_name . " - " . strtoupper($product->type) ?></p>
 
         <h6 class="text-lg mt-4 font-semibold"><?= "Rp. " . number_format($product->price) ?></h6>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Enum\ProductType;
 use App\Models\Category;
 use App\Models\Product as ModelsProduct;
 
@@ -46,7 +47,8 @@ class Product extends BaseController
         $data = [
             "title"         => "Tambah Produk",
             "active"        => "product",
-            "categories"    => $this->categories()
+            "categories"    => $this->categories(),
+            "product_types" => ProductType::values()
         ];
 
         return $this->pageViews("product/create", $data);
@@ -54,8 +56,11 @@ class Product extends BaseController
 
     public function create()
     {
+        $productTypeList = implode(",", ProductType::values());
+
         $rules = [
             "name"          => "required|max_length[255]",
+            "type"          => "required|in_list[$productTypeList]",
             "category_id"   => "required|is_not_unique[categories.id]",
             "picture"       => "uploaded[picture]|max_size[picture,1024]|ext_in[picture,jpg,jpeg,png]",
             "price"         => "required|numeric"
@@ -102,7 +107,8 @@ class Product extends BaseController
             "title"         => "Edit Produk",
             "active"        => "product",
             "product"       => $product,
-            "categories"    => $this->categories()
+            "categories"    => $this->categories(),
+            "product_types" => ProductType::values()
         ];
 
         return $this->pageViews("product/edit", $data);
@@ -110,8 +116,11 @@ class Product extends BaseController
 
     public function update(int $id)
     {
+        $productTypeList = implode(",", ProductType::values());
+
         $rules = [
             "name"          => "required|max_length[255]",
+            "type"          => "required|in_list[$productTypeList]",
             "category_id"   => "required|is_not_unique[categories.id]",
             "price"         => "required|numeric"
         ];
