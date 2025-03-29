@@ -7,7 +7,7 @@
         <h1 class="text-4xl text-center font-bold">Login</h1>
 
         <form action="/sign-in" method="POST" class="mt-5">
-            <div class="flex items-center border-b border-b-zinc-400 ">
+            <div class="flex items-center border-b border-b-zinc-400">
                 <i class="bi bi-person-badge pe-3 text-2xl text-zinc-400"></i>
                 <input autocomplete="off" type="text" placeholder="Username" name="username" id="username" class="floating-input-icon" value="<?= old("username") ?>" />
             </div>

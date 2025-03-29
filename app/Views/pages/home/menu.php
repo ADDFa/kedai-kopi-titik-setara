@@ -14,7 +14,7 @@ use App\Enum\ProductType;
     <h2 class="text-2xl font-bold leading-9 mb-4">PALING DISUKAI</h2>
     <hr class="text-gray-300" />
 
-    <div class="grid gap-3 mt-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div class="grid gap-3 mt-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <?php foreach ($bestSellers as $bestSeller): ?>
             <div class="p-3 border border-gray-200 transition-colors hover:border-(--primary)">
                 <img src="<?= $bestSeller->picture ?>" alt="best seller" class="aspect-square" />
@@ -30,10 +30,10 @@ use App\Enum\ProductType;
 
     <div class="flex flex-col gap-3 mt-3 xl:flex-row">
         <div class="flex-1">
-            <h3 class="text-xl font-bold text-center xl:text-start">Makanan</h3>
+            <h3 class="text-xl font-bold text-center">Makanan</h3>
             <hr class="text-gray-300" />
 
-            <div class="grid gap-1.5 mt-4 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid gap-1.5 mt-4 grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($products as $product): ?>
                     <?php if ($product->type === ProductType::FOODS): ?>
                         <div class="p-3 border border-gray-200 transition-colors hover:border-(--primary)"
@@ -41,7 +41,7 @@ use App\Enum\ProductType;
                             <img src="<?= $product->picture ?>" alt="<?= $product->name ?>" class="aspect-square" />
                             <p class="mt-2"><?= $product->name ?></p>
 
-                            <div class="mt-6 flex justify-between items-center">
+                            <div class="mt-6 flex flex-col md:flex-row md:justify-between md:items-center">
                                 <p class="text-(--primary) font-bold">Rp. <?= number_format($product->price, 0, ",", ".") ?></p>
                                 <p class="px-2 bg-gray-200 rounded-full"><?= $product->sold ?> Terjual</p>
                             </div>
@@ -58,10 +58,10 @@ use App\Enum\ProductType;
         </div>
 
         <div class="flex-1">
-            <h3 class="text-xl font-bold text-center xl:text-start">Minuman</h3>
+            <h3 class="text-xl font-bold text-center">Minuman</h3>
             <hr class="text-gray-300" />
 
-            <div class="grid gap-1.5 mt-4 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid gap-1.5 mt-4 grid-cols-2 lg:grid-cols-3">
                 <?php foreach ($products as $product): ?>
                     <?php if ($product->type === ProductType::DRINKS): ?>
                         <div class="p-3 border border-gray-200 transition-colors hover:border-(--primary)"

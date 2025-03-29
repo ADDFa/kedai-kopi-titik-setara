@@ -64,7 +64,7 @@
                         </div>
 
                         <p class="mt-20 text-end text-sm">Rp. <?= $item->price ?></p>
-                        <p class="mt-2 text-end">Total <?= $item->qty ?> produk: <span class="font-bold">Rp. <?= $item->subtotal ?></span></p>
+                        <p class="mt-2 text-end">Total <?= $item->qty ?> produk: <br class="md:hidden" /> <span class="font-bold">Rp. <?= $item->subtotal ?></span></p>
                     </div>
                 </div>
                 <hr class="my-4 text-gray-400" />

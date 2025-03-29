@@ -44,7 +44,7 @@ class CustomerOrder extends BaseController
     public function index()
     {
         $userId = session("user.id");
-        $status = $this->request->getGet("status") ?? "pending";
+        $status = $this->request->getGet("status") ?: "pending";
 
         $orders = $this->orderModel
             ->setTable("orders o")
@@ -170,7 +170,7 @@ class CustomerOrder extends BaseController
 
             $this->orderModel->db->transComplete();
 
-            return redirect()->to("/customer/order?status=process");
+            return redirect()->to("/customer/order?status=processed");
         } catch (\Exception $e) {
             $this->orderModel->db->transRollback();
             return redirect()->back();

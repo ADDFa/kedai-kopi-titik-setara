@@ -12,11 +12,13 @@ class OrderSeeder extends Seeder
             [
                 "user_id"       => 2,
                 "status"        => "completed",
+                "table_number"  => 1,
                 "total_price"   => 64000
             ],
             [
                 "user_id"       => 2,
                 "status"        => "completed",
+                "table_number"  => 3,
                 "total_price"   => 67000
             ]
         ];

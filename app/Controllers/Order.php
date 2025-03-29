@@ -50,7 +50,8 @@ class Order extends BaseController
     public function create()
     {
         $rules = [
-            "payment_method"    =>  "required|in_list[qris,cash]"
+            "payment_method"    => "required|in_list[qris,cash]",
+            "table_number"      => "required|integer"
         ];
 
         if (!$this->validate($rules)) return redirect()->back()->withInput()
@@ -66,6 +67,7 @@ class Order extends BaseController
             // simpan data order
             $orderId = $this->orderModel->insert([
                 "user_id"       => $userId,
+                "table_number"  => $this->request->getPost("table_number"),
                 "total_price"   => ControllersCart::total(false),
                 "order_date"    => date("Y-m-d H:i:s")
             ]);

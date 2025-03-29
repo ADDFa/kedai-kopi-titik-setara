@@ -18,7 +18,7 @@
         <form action="/product" method="POST" enctype="multipart/form-data">
             <div class="flex flex-col relative">
                 <label for="name" class="text-sm mb-3">Nama Produk</label>
-                <input autocomplete="off" type="text" name="name" placeholder="Americano" id="name" class="border <?= session("errors.name") ? "border-red-400" : "border-gray-400" ?> rounded p-2 outline-none placeholder:text-xs" value="<?= old("name") ?>" />
+                <input autocomplete="off" type="text" name="name" placeholder="Americano" id="name" class="border rounded p-2 outline-none placeholder:text-xs <?= session("errors.name") ? "border-red-400" : "border-gray-400" ?>" value="<?= old("name") ?>" />
                 <?php if (session("errors.name")): ?>
                     <i class="bi bi-exclamation-triangle text-red-500 absolute bottom-7 right-3"></i>
                 <?php endif ?>

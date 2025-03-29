@@ -24,8 +24,11 @@ $this->extend("layouts/dashboard");
         <div class="mb-3">
             <p class="font-bold">Pemesan</p>
             <p><?= $order->name ?></p>
+            <p>Nomor Meja: <span class="font-bold"><?= $order->table_number ?></span></p>
         </div>
+        <hr class="mb-3 text-gray-400" />
 
+        <h2 class="text-lg font-bold">Daftar Pesanan</h2>
         <?php foreach ($order->order_items as $item): ?>
             <div class="mt-3 flex gap-3">
                 <img src="/<?= $item->picture ?>" alt="<?= $item->name ?>" class="w-24 aspect-square rounded-lg">

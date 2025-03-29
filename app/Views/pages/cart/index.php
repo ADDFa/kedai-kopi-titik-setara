@@ -98,6 +98,12 @@
 
             <form action="/order" method="POST">
                 <div>
+                    <label for="table_number">Nomor Meja</label>
+                    <input type="text" inputmode="numeric" name="table_number" id="table_number" class="w-full mt-3 border rounded p-2 outline-none placeholder:text-xs <?= session("errors.table_number") ? "border-red-400" : "border-gray-400" ?>" value="<?= old("name") ?>" />
+                    <p class="invalid-feedback"><?= session("errors.table_number") ?></p>
+                </div>
+
+                <div class="mt-3">
                     <label for="payment-method">Metode Pembayaran</label>
                     <select name="payment_method" id="payment-method" class="block w-full border border-gray-400 p-2 rounded mt-3">
                         <option value="qris">Qris</option>

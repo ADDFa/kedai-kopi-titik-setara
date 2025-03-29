@@ -22,6 +22,9 @@ class CreateOrderTable extends Migration
                 "constraint"        => OrderStatus::values(),
                 "default"           => "pending"
             ],
+            "table_number" => [
+                "type"              => "INTEGER"
+            ],
             "total_price"  => [
                 "type"              => "DECIMAL",
                 "constraint"       => [10, 2]
