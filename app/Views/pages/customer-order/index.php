@@ -37,7 +37,7 @@
                         <p><?= $order->name ?></p>
                     </td>
                     <td class="py-4">Rp. <?= number_format($order->total_price, 0, ",", ".") ?></td>
-                    <td class="py-4"><?= date("d M Y", strtotime($order->order_date)) ?></td>
+                    <td class="py-4"><?= date("d-m-Y H:i", strtotime($order->order_date)) ?> WIB</td>
                     <td class="py-4">
                         <span class="px-3 py-1 rounded <?= $statusColor($order->status) ?>"><?= $order->status ?></span>
                     </td>

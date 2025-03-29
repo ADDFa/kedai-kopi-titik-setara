@@ -4,8 +4,9 @@
 
 <div class="w-dvw h-dvh flex justify-center items-center">
     <div class="border p-4 min-w-xs rounded-xl text-gray-700">
-        <h1 class="font-bold text-2xl text-center">Kedai Kopi</h1>
-        <hr class="my-2" />
+        <h1 class="font-bold text-lg text-center">KEDAI KOPI</h1>
+        <h2 class="font-bold text-3xl text-center text-gray-600">TITIK SETARA</h2>
+        <hr class="my-2 text-slate-400" />
 
         <div class="mt-3">
             <h2 class="font-bold">Produk</h2>
@@ -23,7 +24,7 @@
         <div class="mt-4">
             <h2 class="font-bold">Pembayaran</h2>
 
-            <ul class="mt-2">
+            <ul>
                 <li class="flex justify-between">
                     <span>Metode Pembayaran:</span>
                     <span><?= strtoupper($order->payment_method) ?></span>
@@ -35,10 +36,16 @@
             </ul>
         </div>
 
-        <div class="mt-6">
-            <button id="print" class="ms-auto px-3 py-2 block bg-blue-700 text-white rounded-lg">
-                <i class="bi bi-printer"></i>
-            </button>
+        <div class="mt-6 text-end">
+            <p class="font-bold">Tanggal Pemesanan:</p>
+            <p><?= date("d-m-Y H:i", strtotime($order->order_date)) ?> WIB</p>
+        </div>
+
+        <div class="mt-6 mb-4 text-center italic text-sm text-gray-400">
+            <p>===============</p>
+            <p>Terimakasih...</p>
+            <p>😊 Sampai Bertemu Kembali 😊</p>
+            <p>===============</p>
         </div>
     </div>
 </div>
@@ -48,9 +55,7 @@
 <?php $this->section("script") ?>
 
 <script>
-    document.getElementById("print")?.addEventListener("click", () => {
-        print()
-    })
+    addEventListener("DOMContentLoaded", () => print())
 </script>
 
 <?php $this->endSection("script") ?>

@@ -49,7 +49,7 @@ $this->extend("layouts/dashboard");
         </div>
         <div class=" mt-3">
             <p class="font-bold">Tanggal Pemesanan</p>
-            <p><?= date("Y-m-d", strtotime($order->order_date)) ?></p>
+            <p><?= date("d-m-Y H:i", strtotime($order->order_date)) ?> WIB</p>
         </div>
         <div class="mt-3">
             <p class="font-bold">Metode Pembayaran</p>
@@ -66,7 +66,7 @@ $this->extend("layouts/dashboard");
 
         <div class="flex items-end gap-1 justify-end">
             <?php if ($order->status === OrderStatus::COMPLETE): ?>
-                <a href="/customer/order/6/print" class="px-3 py-2 block bg-blue-700 text-white rounded-lg" title="Cetak Struk" target="_blank">
+                <a href="/customer/order/<?= $order->id ?>/print" class="px-3 py-2 block bg-blue-700 text-white rounded-lg" title="Cetak Struk" target="_blank">
                     <i class="bi bi-printer"></i>
                 </a>
             <?php endif ?>
